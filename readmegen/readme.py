@@ -58,7 +58,12 @@ class Readme:
                     if module in task and task[module]['name'] == self._role:
                         log.debug('Found {}: {}'.format(module, self._role))
                         try:
-                            variables = task['vars']
+                            for name, value in task['vars'].items():
+                                if name in self._optional:
+                                    msg = 'Skipping {} because it\'s optional'
+                                    log.info(msg.format(name))
+                                else:
+                                    self.add_var(name, value, optional = False)
                             break
                         except KeyError:
                             msg = 'No vars defined for {} in task {}'

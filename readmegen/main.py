@@ -41,11 +41,11 @@ def main():
         role_name = os.path.basename(os.path.realpath(args.roledir))
         readme = Readme(role_name)
 
-        if args.playbook:
-            readme.read_playbook(args.playbook)
-
         defaults_path = os.path.join(args.roledir, 'defaults', 'main.yml')
         readme.read_defaults(defaults_path)
+
+        if args.playbook:
+            readme.read_playbook(args.playbook)
 
         print(str(readme))
 
