@@ -24,16 +24,15 @@ def _set_log_level():
     log = logging.getLogger(__name__)
 
 def main():
+    _set_log_level()
+
     ap = argparse.ArgumentParser(description = 'Generate Readme for Ansible roles')
-
-    ap.add_argument('--playbook', '-p',
-            type = argparse.FileType('r'),
-            help = 'A minimal playbook for this role')
-
     ap.add_argument('--roledir', '-r',
             default = '.',
             help = 'Path to the role; default: current directory')
-
+    ap.add_argument('--playbook', '-p',
+            type = argparse.FileType('r'),
+            help = 'A minimal playbook for this role')
     args = ap.parse_args()
 
     try:
