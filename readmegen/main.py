@@ -3,6 +3,8 @@
 
 import logging, sys, os, argparse
 
+from .readme import Readme
+
 log = None
 
 def _set_log_level():
@@ -36,7 +38,10 @@ def main():
     args = ap.parse_args()
 
     try:
-        pass
+        role_name = os.path.basename(os.path.realpath(args.roledir))
+        log.debug('Role name is ' + role_name)
+        readme = Readme(role_name)
+
     except Exception as e:
         if log.isEnabledFor(logging.DEBUG):
             raise RuntimeError() from e
