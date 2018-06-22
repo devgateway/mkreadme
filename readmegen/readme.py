@@ -1,4 +1,5 @@
 import logging
+from io import SEEK_SET
 
 import yaml
 try:
@@ -32,15 +33,37 @@ class Readme:
 
     def read_defaults(self, path):
         log.debug('Reading defaults from "{}"'.format(path))
-        try:
-            pass
-        except Exception as e:
-            log.error(str(e))
+        yaml_file = open(path, 'rb')
+        defaults = yaml.load(yaml_file)
+        for name, value in defaults.items():
+            self.add_var(name, value, optional = True)
+        yaml_file.close()
 
     def read_playbook(self, playbook_file):
         log.debug('Reading playbook from "{}"'.format(playbook_file.name))
-        try:
-            self._playbook = playbook_file.read()
-            playbook_file.close()
-        except Exception as e:
-            log.error(str(e))
+        self._playbook = playbook_file.read()
+
+        playbook_file.seek(0, SEEK_SET)
+        playbook = yaml.load(playbook_file)
+        for play in playbook:
+            task_number = 0
+            for task in play['tasks']:
+                try:
+                    task_desc = '"{}"'.format(task['name'])
+                except KeyError:
+                    task_desc = '#' + str(task_number)
+                log.debug('Examining task ' + task_desc)
+
+                for module in ['import_role', 'include_role']:
+                    if module in task and task[module]['name'] == self._role:
+                        log.debug('Found {}: {}'.format(module, self._role))
+                        try:
+                            variables = task['vars']
+                            break
+                        except KeyError:
+                            msg = 'No vars defined for {} in task {}'
+                            log.info(msg.format(module, task_desc))
+
+                task_number = task_number + 1
+
+        playbook_file.close()
