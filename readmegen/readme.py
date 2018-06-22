@@ -25,7 +25,7 @@ class Readme:
             var_list = self._required
             var_kind = 'required'
 
-        log.debug('Add {} variable {}'.format(var_kind, name))
+        log.debug('Adding {} variable {}'.format(var_kind, name))
         var_list[name] = value
 
     def __str__(self):
