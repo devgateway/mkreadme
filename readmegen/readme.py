@@ -45,6 +45,7 @@ class Readme:
 
         playbook_file.seek(0, SEEK_SET)
         playbook = yaml.load(playbook_file)
+        playbook_file.close()
         for play in playbook:
             task_number = 0
             for task in play['tasks']:
@@ -70,5 +71,3 @@ class Readme:
                             log.info(msg.format(module, task_desc))
 
                 task_number = task_number + 1
-
-        playbook_file.close()
