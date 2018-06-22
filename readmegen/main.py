@@ -39,8 +39,15 @@ def main():
 
     try:
         role_name = os.path.basename(os.path.realpath(args.roledir))
-        log.debug('Role name is ' + role_name)
         readme = Readme(role_name)
+
+        if args.playbook:
+            readme.read_playbook(args.playbook)
+
+        defaults_path = os.path.join(args.roledir, 'defaults', 'main.yml')
+        readme.read_defaults(defaults_path)
+
+        print(str(readme))
 
     except Exception as e:
         if log.isEnabledFor(logging.DEBUG):
