@@ -6,6 +6,7 @@ try:
     from yaml import CLoader as Loader
 except ImportError:
     from yaml import Loader
+import jinja2
 
 log = logging.getLogger(__name__)
 

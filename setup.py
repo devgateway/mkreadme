@@ -4,20 +4,23 @@
 from setuptools import setup
 
 setup(
-        name = "readmegen",
-        version = "0.1",
-        license = "GPLv3+",
-        description = "Readme generator for Ansible roles",
-        author = "Development Gateway",
-        python_requires = ">= 3.4",
-        packages = ["readmegen"],
-        install_requires = [
-            "PyYAML",
-            "markdown"
-            ],
-        entry_points = {
-            "console_scripts": [
-                "readmegen = readmegen.main:main"
-                ]
-            }
-        )
+    name = "readmegen",
+    version = "0.1",
+    license = "GPLv3+",
+    description = "Readme generator for Ansible roles",
+    author = "Development Gateway",
+    python_requires = ">= 3.4",
+    packages = ["readmegen"],
+    package_data = {
+        '': '*.j2'
+    },
+    install_requires = [
+        "PyYAML",
+        "jinja2"
+    ],
+    entry_points = {
+        "console_scripts": [
+            "readmegen = readmegen.main:main"
+        ]
+    }
+)
