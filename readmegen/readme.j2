@@ -27,3 +27,15 @@ Default: ``` {{ optional_vars[var_name] }} ```
 {{      playbook }}
 {%    endfilter %}
 {%  endif %}
+{%  if license %}
+
+## License
+
+{{ license }}
+{%  endif %}
+{%  if author %}
+
+## Author Information
+
+Copyright {{ year }}, {{ author }}
+{%  endif %}

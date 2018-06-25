@@ -1,5 +1,6 @@
 import logging
 from io import SEEK_SET
+from datetime import date
 
 import yaml
 try:
@@ -11,12 +12,14 @@ import jinja2
 log = logging.getLogger(__name__)
 
 class Readme:
-    def __init__(self, role):
+    def __init__(self, role, author = None, license = None):
         log.debug('Role name is ' + role)
         self._role = role
         self._required = {}
         self._optional = {}
         self._playbook = None
+        self._author = author
+        self._license = license
 
     def add_var(self, name, value, optional = False):
         if optional:
@@ -37,11 +40,15 @@ class Readme:
             trim_blocks = True
         )
         template = env.get_template('readme.j2')
+        today = date.today()
         content = template.render(
             role = self._role,
-            playbook = self._playbook,
             required_vars = self._required,
-            optional_vars = self._optional
+            optional_vars = self._optional,
+            playbook = self._playbook,
+            license = self._license,
+            year = today.year,
+            author = self._author
         )
 
         return content
