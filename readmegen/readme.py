@@ -30,7 +30,15 @@ class Readme:
         var_list[name] = value
 
     def __str__(self):
-        return 'Not implemented yet'
+        loader = jinja2.PackageLoader(__name__, '.')
+        env = jinja2.Environment(loader = loader, autoescape = True)
+        template = env.get_template('readme.j2')
+        content = template.render(
+            required_vars = self._required,
+            optional_vars = self._optional
+        )
+
+        return content
 
     def read_defaults(self, path):
         log.debug('Reading defaults from "{}"'.format(path))
