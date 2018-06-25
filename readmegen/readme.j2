@@ -1,3 +1,27 @@
+{%  macro quote_value(value) %}
+{%  if value is string %}
+{{    '``` ' ~ value ~ ' ```' }}
+{%- else %}
+{{    value }}
+{%- endif %}
+{%- endmacro -%}
+
+{%  macro format_default_value(value) %}
+{%    if value is mapping %}
+{{      'Default:\n' }}
+{%      for k, v in value.items() %}
+{{        '* ' ~ quote_value(k) ~ ': ' ~ quote_value(v) }}
+{%      endfor %}
+{%    elif value is sequence and value is not string %}
+{{      'Default:\n' }}
+{%      for v in value %}
+{{        '* ' ~ quote_value(v) }}
+{%      endfor %}
+{%    else %}
+{{      'Default: ``` ' ~ value ~ ' ```' }}
+{%    endif %}
+{%- endmacro -%}
+
 # {{ role }}
 
 Role description.
@@ -17,7 +41,7 @@ Variable description.
 
 Variable description.
 
-Default: ``` {{ optional_vars[var_name] }} ```
+{{ format_default_value(optional_vars[var_name]) }}
 {%  endfor %}
 {%  if playbook %}
 
