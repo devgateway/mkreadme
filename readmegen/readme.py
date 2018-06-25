@@ -34,6 +34,8 @@ class Readme:
         env = jinja2.Environment(loader = loader, autoescape = True)
         template = env.get_template('readme.j2')
         content = template.render(
+            role = self._role,
+            playbook = self._playbook,
             required_vars = self._required,
             optional_vars = self._optional
         )
