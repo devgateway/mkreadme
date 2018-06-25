@@ -31,7 +31,11 @@ class Readme:
 
     def __str__(self):
         loader = jinja2.PackageLoader(__name__, '.')
-        env = jinja2.Environment(loader = loader, autoescape = True)
+        env = jinja2.Environment(
+            loader = loader,
+            autoescape = False,
+            trim_blocks = True
+        )
         template = env.get_template('readme.j2')
         content = template.render(
             role = self._role,

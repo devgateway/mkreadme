@@ -1,0 +1,29 @@
+# {{ role }}
+
+Role description.
+
+## Required Variables
+{%  for var_name in required_vars | sort %}
+
+### `{{ var_name }}`
+
+Variable description.
+{%  endfor %}
+
+## Optional Variables
+{%  for var_name in optional_vars | sort %}
+
+### `{{ var_name }}`
+
+Variable description.
+
+Default: ``` {{ optional_vars[var_name] }} ```
+{%  endfor %}
+{%  if playbook %}
+
+## Playbook Example
+
+{%    filter indent(width = 4, first = True) %}
+{{      playbook }}
+{%    endfilter %}
+{%  endif %}
