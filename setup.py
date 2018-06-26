@@ -16,7 +16,7 @@ setup(
     },
     install_requires = [
         "PyYAML",
-        "jinja2"
+        "jinja2 >= 2.6"
     ],
     entry_points = {
         "console_scripts": [
