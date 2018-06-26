@@ -1,5 +1,5 @@
 # Copyright 2018, Development Gateway, Inc.
-# This file is part of readmegen, see COPYING.
+# This file is part of mkreadme, see COPYING.
 
 import logging, sys, os, argparse
 
@@ -29,7 +29,7 @@ def _set_log_level():
 
 def load_defaults():
     global log
-    basename = 'readmegen.yml'
+    basename = 'mkreadme.yml'
     try:
         filename = os.path.join(os.environ["XDG_CONFIG_HOME"], basename)
     except KeyError:
