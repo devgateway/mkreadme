@@ -1,6 +1,20 @@
+{%  macro md_strong(value) %}
+**{{ value }}**
+{%- endmacro -%}
+
+{%  macro md_em(value) %}
+*{{ value }}*
+{%- endmacro -%}
+
+{%  macro md_code(value) %}
+``` {{ value }} ```
+{%- endmacro -%}
+
 {%  macro quote_value(value) %}
 {%  if value is string %}
-{{    '``` ' ~ value ~ ' ```' }}
+{{    md_code(value) }}
+{%- elif value is sameas(True) or value is sameas(False) %}
+{{    md_em(value) }}
 {%- else %}
 {{    value }}
 {%- endif %}
@@ -10,7 +24,7 @@
 {%    if value is mapping %}
 {{      'Default:\n' }}
 {%      for k, v in value.items() %}
-{{        '* ' ~ quote_value(k) ~ ': ' ~ quote_value(v) }}
+{{        '* ' ~ md_strong(k | markdown_escape) ~ ': ' ~ quote_value(v) }}
 {%      endfor %}
 {%    elif value is sequence and value is not string %}
 {{      'Default:\n' }}
@@ -18,7 +32,7 @@
 {{        '* ' ~ quote_value(v) }}
 {%      endfor %}
 {%    else %}
-{{      'Default: ``` ' ~ value ~ ' ```' }}
+{{      'Default: ' ~ quote_value(value) }}
 {%    endif %}
 {%- endmacro -%}
 
