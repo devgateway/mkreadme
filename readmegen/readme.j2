@@ -26,20 +26,21 @@
 {%      for k, v in value.items() %}
 {{        '* ' ~ md_strong(k | markdown_escape) ~ ': ' ~ quote_value(v) }}
 {%      endfor %}
-{%    elif value is sequence and value is not string %}
+{%-   elif value is sequence and value is not string %}
 {{      'Default:\n' }}
 {%      for v in value %}
 {{        '* ' ~ quote_value(v) }}
 {%      endfor %}
-{%    else %}
+{%-   else %}
 {{      'Default: ' ~ quote_value(value) }}
-{%    endif %}
+{%-   endif %}
 {%- endmacro -%}
 
 # {{ role }}
 
 Role description.
 
+{%  if required_vars %}
 ## Required Variables
 {%  for var_name in required_vars | sort %}
 
@@ -47,7 +48,9 @@ Role description.
 
 Variable description.
 {%  endfor %}
+{%  endif %}
 
+{%  if optional_vars %}
 ## Optional Variables
 {%  for var_name in optional_vars | sort %}
 
@@ -57,7 +60,9 @@ Variable description.
 
 {{ format_default_value(optional_vars[var_name]) }}
 {%  endfor %}
-{%  if playbook %}
+{%  endif %}
+
+{%- if playbook %}
 
 ## Playbook Example
 
