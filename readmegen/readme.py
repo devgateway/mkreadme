@@ -11,6 +11,12 @@ import jinja2
 
 log = logging.getLogger(__name__)
 
+def markdown_escape(raw_string):
+    special_chars = '\\`*_{}[]()#+-.!'
+    escape_func = lambda c: '\\' + c if c in special_chars else c
+    escaped_chars = map(escape_func, raw_string)
+    return ''.join(escaped_chars)
+
 class Readme:
     def __init__(self, role, author = None, license = None):
         log.debug('Role name is ' + role)
@@ -39,6 +45,7 @@ class Readme:
             autoescape = False,
             trim_blocks = True
         )
+        env.filters['markdown_escape'] = markdown_escape
         template = env.get_template('readme.j2')
         today = date.today()
         content = template.render(
